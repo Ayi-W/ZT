@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>植泰品牌美学设计理念</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            color: #333;
+            line-height: 1.6;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><path d="M0,0 L100,100 M100,0 L0,100" stroke="rgba(92, 151, 140, 0.05)" stroke-width="1"/></svg>');
+            z-index: -1;
+        }
+        
+        .ppt-container {
+            display: flex;
+            height: 100vh;
+            transition: transform 0.5s ease-in-out;
+        }
+        
+        .slide {
+            min-width: 100vw;
+            height: 100vh;
+            padding: 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .slide-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+        
+        /* 导航按钮 */
+        .nav-btn {
+            position: fixed;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 60px;
+            height: 60px;
+            background: rgba(92, 151, 140, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #5C978C;
+            font-size: 24px;
+            cursor: pointer;
+            z-index: 100;
+            backdrop-filter: blur(5px);
+            transition: all 0.3s ease;
+        }
+        
+        .nav-btn:hover {
+            background: rgba(92, 151, 140, 0.8);
+            color: white;
+            transform: translateY(-50%) scale(1.1);
+        }
+        
+        .prev-btn {
+            left: 20px;
+        }
+        
+        .next-btn {
+            right: 20px;
+        }
+        
+        /* 进度指示器 */
+        .progress-bar {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            z-index: 100;
+        }
+        
+        .progress-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(92, 151, 140, 0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .progress-dot.active {
+            background: #5C978C;
+            transform: scale(1.2);
+        }
+        
+        /* 各幻灯片自定义样式 */
+        .slide-1 {
+            background: linear-gradient(135deg, #ffffff 0%, #f0f7f6 100%);
+            text-align: center;
+        }
+        
+        .slide-1 h1 {
+            font-size: 4.5rem;
+            margin-bottom: 20px;
+            background: linear-gradient(to right, #5C978C, #4A4E69);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        
+        .slide-1 .tagline {
+            font-size: 2.2rem;
+            max-width: 800px;
+            margin: 0 auto 40px;
+            font-weight: 300;
+            color: #4A4E69;
+        }
+        
+        .slide-1 .subtitle {
+            font-size: 1.4rem;
+            max-width: 700px;
+            margin: 0 auto;
+            color: #5C978C;
+            font-weight: 300;
+        }
+        
+        .leaf-decoration {
+            position: absolute;
+            opacity: 0.1;
+            z-index: 1;
+        }
+        
+        .leaf-1 {
+            top: 10%;
+            left: 10%;
+            font-size: 15rem;
+            color: #5C978C;
+            transform: rotate(-15deg);
+        }
+        
+        .leaf-2 {
+            bottom: 10%;
+            right: 10%;
+            font-size: 12rem;
+            color: #A67C52;
+            transform: rotate(25deg);
+        }
+        
+        .slide-2 {
+            background: linear-gradient(135deg, #f0f7f6 0%, #e1efec 100%);
+        }
+        
+        .columns {
+            display: flex;
+            gap: 50px;
+            margin-top: 30px;
+        }
+        
+        .column {
+            flex: 1;
+            background: rgba(255,255,255,0.7);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            backdrop-filter: blur(10px);
+        }
+        
+        .column h2 {
+            font-size: 2.2rem;
+            margin-bottom: 30px;
+            color: #5C978C;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .column h2 i {
+            font-size: 2rem;
+        }
+        
+        .column ul {
+            list-style-type: none;
+        }
+        
+        .column li {
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(92, 151, 140, 0.1);
+            font-size: 1.2rem;
+            display: flex;
+            gap: 10px;
+        }
+        
+        .column li:last-child {
+            border-bottom: none;
+        }
+        
+        .column li i {
+            color: #A67C52;
+            min-width: 24px;
+        }
+        
+        .slide-3 {
+            background: linear-gradient(135deg, #e1efec 0%, #d2e6e2 100%);
+        }
+        
+        .visual-system {
+            max-width: 1000px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        .visual-system h2 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: #4A4E69;
+        }
+        
+        .visual-system p {
+            font-size: 1.4rem;
+            max-width: 800px;
+            margin: 0 auto 60px;
+            color: #5C978C;
+        }
+        
+        .color-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        .color-item {
+            background: rgba(255,255,255,0.7);
+            border-radius: 20px;
+            padding: 30px 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            backdrop-filter: blur(10px);
+        }
+        
+        .color-box {
+            height: 100px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            transition: transform 0.3s ease;
+        }
+        
+        .color-box:hover {
+            transform: scale(1.05);
+        }
+        
+        .color-name {
+            font-size: 1.4rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .color-value {
+            font-size: 1.1rem;
+            color: #4A4E69;
+        }
+        
+        .slide-4 {
+            background: linear-gradient(135deg, #d2e6e2 0%, #c3ded9 100%);
+        }
+        
+        .application-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 40px;
+            margin-top: 40px;
+        }
+        
+        .app-card {
+            background: rgba(255,255,255,0.7);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            backdrop-filter: blur(10px);
+        }
+        
+        .app-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: #5C978C;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .app-card p {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            margin-bottom: 25px;
+            color: #4A4E69;
+        }
+        
+        .app-card ul {
+            padding-left: 25px;
+        }
+        
+        .app-card li {
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+            color: #4A4E69;
+        }
+        
+        .highlight {
+            color: #A67C52;
+            font-weight: bold;
+        }
+        
+        .slide-5 {
+            background: linear-gradient(135deg, #c3ded9 0%, #5C978C 100%);
+            text-align: center;
+        }
+        
+        .contact-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255,255,255,0.8);
+            border-radius: 30px;
+            padding: 60px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+        }
+        
+        .contact-container h2 {
+            font-size: 3.5rem;
+            margin-bottom: 30px;
+            color: #4A4E69;
+        }
+        
+        .contact-container p {
+            font-size: 1.8rem;
+            margin-bottom: 40px;
+            line-height: 1.6;
+            color: #5C978C;
+        }
+        
+        .contact-info {
+            font-size: 1.8rem;
+            background: rgba(92, 151, 140, 0.2);
+            padding: 25px;
+            border-radius: 15px;
+            display: inline-block;
+            margin-top: 20px;
+            color: #4A4E69;
+        }
+        
+        .contact-info a {
+            color: #4A4E69;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+        
+        .contact-info a:hover {
+            color: #A67C52;
+            text-decoration: underline;
+        }
+        
+        .slogan {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-top: 50px;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        @media (max-width: 768px) {
+            .slide {
+                padding: 30px 20px;
+            }
+            
+            .slide-1 h1 {
+                font-size: 2.8rem;
+            }
+            
+            .slide-1 .tagline {
+                font-size: 1.5rem;
+            }
+            
+            .columns, .application-grid {
+                flex-direction: column;
+                grid-template-columns: 1fr;
+            }
+            
+            .color-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .leaf-decoration {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="ppt-container">
+        <!-- 第1页：封面 -->
+        <div class="slide slide-1">
+            <div class="leaf-decoration leaf-1">
+                <i class="fas fa-leaf"></i>
+            </div>
+            <div class="leaf-decoration leaf-2">
+                <i class="fas fa-seedling"></i>
+            </div>
+            <div class="slide-content">
+                <h1>植泰 VERTAI</h1>
+                <div class="tagline">植物与城市的共生哲学</div>
+                <div class="subtitle">重新定义植物友好型生活方式</div>
+            </div>
+        </div>
+        
+        <!-- 第2页：品牌理念 -->
+        <div class="slide slide-2">
+            <div class="slide-content">
+                <h2><i class="fas fa-heart"></i> 品牌核心价值</h2>
+                <div class="columns">
+                    <div class="column">
+                        <h2><i class="fas fa-seedling"></i> 品牌使命</h2>
+                        <ul>
+                            <li><i class="fas fa-check"></i> 在都市环境中重建人与自然的连接</li>
+                            <li><i class="fas fa-check"></i> 推广可持续的植物友好型生活方式</li>
+                            <li><i class="fas fa-check"></i> 让植物养护成为日常的治愈仪式</li>
+                            <li><i class="fas fa-check"></i> 保护生物多样性，从城市绿洲开始</li>
+                            <li><i class="fas fa-check"></i> 融合工业美学与自然生命力</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="column">
+                        <h2><i class="fas fa-star"></i> 核心理念</h2>
+                        <ul>
+                            <li><i class="fas fa-check"></i> <span class="highlight"> 共生共泰  </span>植物与城市的和谐共存</li>
+                            <li><i class="fas fa-check"></i> <span class="highlight"> 自然教育  </span>通过植物传递生态智慧</li>
+                            <li><i class="fas fa-check"></i> <span class="highlight"> 生命美学  </span>欣赏不完美的生长姿态</li>
+                            <li><i class="fas fa-check"></i> <span class="highlight"> 可持续创新</span>环保材料与循环设计</li>
+                            <li><i class="fas fa-check"></i> <span class="highlight"> 社区联结  </span>市集与工作坊创造对话</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 第3页：视觉系统 -->
+        <div class="slide slide-3">
+            <div class="slide-content">
+                <div class="visual-system">
+                    <h2><i class="fas fa-palette"></i> 品牌视觉系统</h2>
+                    <p>融合自然元素与现代工业美学的设计语言</p>
+                    
+                    <div class="color-grid">
+                        <div class="color-item">
+                            <div class="color-box" style="background: #5C978C;"></div>
+                            <div class="color-name">青瓷绿</div>
+                            <div class="color-value">#5C978C</div>
+                            <div>自然生命力</div>
+                        </div>
+                        
+                        <div class="color-item">
+                            <div class="color-box" style="background: #A67C52;"></div>
+                            <div class="color-name">砂陶棕</div>
+                            <div class="color-value">#A67C52</div>
+                            <div>土壤包容性</div>
+                        </div>
+                        
+                        <div class="color-item">
+                            <div class="color-box" style="background: #FFD166;"></div>
+                            <div class="color-name">琥珀金</div>
+                            <div class="color-value">#FFD166</div>
+                            <div>能量流动</div>
+                        </div>
+                        
+                        <div class="color-item">
+                            <div class="color-box" style="background: #4A4E69;"></div>
+                            <div class="color-name">工业灰</div>
+                            <div class="color-value">#4A4E69</div>
+                            <div>现代质感</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 第4页：应用场景 -->
+        <div class="slide slide-4">
+            <div class="slide-content">
+                <h2><i class="fas fa-cube"></i> 品牌应用场景</h2>
+                <div class="application-grid">
+                    <div class="app-card">
+                        <h3><i class="fas fa-store"></i> 市集体验空间</h3>
+                        <p>在工业遗址中创造绿洲：</p>
+                        <ul>
+                            <li>线下植物主题摊位设计</li>
+                            <li>工业风道具与鲜活植物的碰撞美学</li>
+                            <li>互动式植物科普与养护指南</li>
+                            <li>植物分享与植物医生咨询服务</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="app-card">
+                        <h3><i class="fas fa-mobile-alt"></i> 线上社交传播</h3>
+                        <p>构建植物爱好者社群：</p>
+                        <ul>
+                            <li>#植泰植物急诊室 话题互动</li>
+                            <li>小众植物图鉴短视频系列</li>
+                            <li>线上养护课程与直播问诊</li>
+                            <li>用户成长日记UGC征集</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="app-card">
+                        <h3><i class="fas fa-seedling"></i> 自然教育和疗愈课程</h3>
+                        <p>与双浦农场深度合作：</p>
+                        <ul>
+                            <li>「从种子到餐桌」亲子种植课</li>
+                            <li>都市微农业工作坊</li>
+                            <li>植物手作与生态艺术创作</li>
+                            <li>企业团队自然疗愈活动</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="app-card">
+                        <h3><i class="fas fa-gift"></i> 产品体系规划</h3>
+                        <p>重新定义植物消费：</p>
+                        <ul>
+                            <li>「办公室幸存者」懒人植物</li>
+                            <li>季节限定植物组盆套装</li>
+                            <li>可降解智能花盆系列</li>
+                            <li>植物养护工具套装</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 第5页：结束页 -->
+        <div class="slide slide-5">
+            <div class="slide-content">
+                <div class="contact-container">
+                    <h2><i class="fas fa-handshake"></i> 加入植泰的旅程</h2>
+                    <p>共同创造更友好的城市生态</p>
+                    
+                    <div class="contact-info">
+                        <li class="fas fa-envelope"></li> <a href="mailto:info@ztplants.com">info@ztplants.com</a>
+                        <li class="fab fa-rednote"></li> <a href="#">小红书@植泰ZTplants</a>
+                    </div>
+                </div>
+                
+                <div class="slogan">向下扎根，向上生长</div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 导航按钮 -->
+    <div class="nav-btn prev-btn" onclick="navigate(-1)">
+        <i class="fas fa-chevron-left"></i>
+    </div>
+    
+    <div class="nav-btn next-btn" onclick="navigate(1)">
+        <i class="fas fa-chevron-right"></i>
+    </div>
+    
+    <!-- 进度指示器 -->
+    <div class="progress-bar">
+        <div class="progress-dot active" onclick="goToSlide(0)"></div>
+        <div class="progress-dot" onclick="goToSlide(1)"></div>
+        <div class="progress-dot" onclick="goToSlide(2)"></div>
+        <div class="progress-dot" onclick="goToSlide(3)"></div>
+        <div class="progress-dot" onclick="goToSlide(4)"></div>
+    </div>
+    
+    <script>
+        let currentSlide = 0;
+        const totalSlides = document.querySelectorAll('.slide').length;
+        const pptContainer = document.querySelector('.ppt-container');
+        const dots = document.querySelectorAll('.progress-dot');
+        
+        // 导航函数
+        function navigate(direction) {
+            currentSlide += direction;
+            
+            if (currentSlide < 0) currentSlide = 0;
+            if (currentSlide >= totalSlides) currentSlide = totalSlides - 1;
+            
+            updateSlide();
+        }
+        
+        // 跳转到特定幻灯片
+        function goToSlide(index) {
+            currentSlide = index;
+            updateSlide();
+        }
+        
+        // 更新幻灯片位置和指示器
+        function updateSlide() {
+            pptContainer.style.transform = `translateX(-${currentSlide * 100}vw)`;
+            
+            dots.forEach((dot, index) => {
+                if (index === currentSlide) {
+                    dot.classList.add('active');
+                } else {
+                    dot.classList.remove('active');
+                }
+            });
+        }
+        
+        // 键盘导航
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') {
+                navigate(-1);
+            } else if (e.key === 'ArrowRight') {
+                navigate(1);
+            }
+        });
+        
+        // 初始化
+        updateSlide();
+    </script>
+</body>
+</html>
